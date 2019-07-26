@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        SkinManager.getInstance().init(getApplicationContext());
+        SkinManager.getInstance().init(getApplication());
         skinInflaterFactory = new SkinInflaterFactory();
         LayoutInflaterCompat.setFactory2(getLayoutInflater(), skinInflaterFactory);
         super.onCreate(savedInstanceState);

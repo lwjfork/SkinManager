@@ -1,5 +1,6 @@
 package com.lwj.skin;
 
+import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
@@ -11,6 +12,7 @@ import android.text.TextUtils;
 import com.lwj.skin.fetcher.ImageSrcDrawableFetcher;
 import com.lwj.skin.fetcher.TextColorFetcher;
 import com.lwj.skin.fetcher.base.ResFetcher;
+import com.lwj.skin.util.Reflection;
 import com.lwj.skin.util.SkinInflaterFactory;
 
 import java.lang.reflect.Method;
@@ -25,7 +27,7 @@ public class SkinManager {
 
     private SharedPreferences preferences;
     private static final String SP_SKIN_PATH_KEY = "SKIN";
-    private Context originContext;
+    private Application originContext;
     private String skinPackageName;//  // 插件包名--唯一的，依插件包名为唯一标志
 
     private Resources skinRes;// 插件 res
@@ -48,11 +50,12 @@ public class SkinManager {
         return InnerHolder.INSTANCE;
     }
 
-    public void init(Context context) {
+    public void init(Application application) {
+        Reflection.unseal(application);
         addFetcher();
-        this.originContext = context;
-        this.appRes = context.getApplicationContext().getResources();
-        preferences = context.getApplicationContext().getSharedPreferences(SP_SKIN_PATH_KEY, Context.MODE_PRIVATE);
+        this.originContext = application;
+        this.appRes = originContext.getResources();
+        preferences = originContext.getSharedPreferences(SP_SKIN_PATH_KEY, Context.MODE_PRIVATE);
         String path = preferences.getString(SP_SKIN_PATH_KEY, "");
         if (!TextUtils.isEmpty(path)) { //  初始化的时候，如果为空，那么什么也不做
             loadSkin(path);
