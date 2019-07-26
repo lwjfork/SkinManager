@@ -4,7 +4,7 @@ import android.content.res.Resources;
 import android.support.annotation.ColorInt;
 
 import com.lwj.skin.apply.base.ColorApply;
-import com.lwj.skin.util.ResUtil;
+import com.lwj.skin.util.SkinResUtil;
 
 /**
  * Created by lwj on 2019/7/26.
@@ -16,7 +16,7 @@ public abstract class ColorFetcher<V extends ColorApply> implements ResFetcher<I
     @Override
     @ColorInt
     public Integer getRes(Resources res, int resId) {
-        return ResUtil.getColor(res, resId);
+        return SkinResUtil.getColor(res, resId);
     }
 
     @Override

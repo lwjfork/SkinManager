@@ -24,7 +24,6 @@ public class SkinAttrItem {
         Resources resources = SkinManager.getInstance().getAppRes();
         this.resId = resId;
         entryName = resources.getResourceEntryName(resId);
-
         typeName = resources.getResourceTypeName(resId);
         this.resFetcher = resFetcher;
         attrName = resFetcher.getAttrName();
@@ -51,12 +50,7 @@ public class SkinAttrItem {
         if (skinApply == null) {  // 找不到对应的资源设置器
             return;
         }
-        Resources skinRes = SkinManager.getInstance().getSkinRes();
-        String skinPackageName = SkinManager.getInstance().getSkinPackageName();
-        if (skinRes == null || skinPackageName == null) {
-            return;
-        }
-        int skinResId = skinRes.getIdentifier(entryName, typeName, skinPackageName);
+        int skinResId = SkinManager.getInstance().getSkinResId(resId, entryName, typeName);
         if (skinResId == 0) {
             return;
         }

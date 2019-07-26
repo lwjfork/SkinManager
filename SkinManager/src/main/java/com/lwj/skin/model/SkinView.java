@@ -7,6 +7,7 @@ import android.widget.TextView;
 import com.lwj.skin.SkinManager;
 import com.lwj.skin.fetcher.base.DrawableFetcher;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 /**
@@ -16,15 +17,22 @@ import java.util.ArrayList;
 
 public class SkinView {
 
-    private View view;
+    private WeakReference<View> referenceView;
     private ArrayList<SkinAttrItem> skinAttrItem = new ArrayList<>();
 
     public SkinView(View view, ArrayList<SkinAttrItem> skinAttrItem) {
-        this.view = view;
+        referenceView = new WeakReference<>(view);
         this.skinAttrItem = skinAttrItem;
     }
 
     public void apply() {
+        if (referenceView == null) {
+            return;
+        }
+        View view = referenceView.get();
+        if (view == null) {
+            return;
+        }
         Drawable drawableLeft = null;
         Drawable drawableTop = null;
         Drawable drawableRight = null;

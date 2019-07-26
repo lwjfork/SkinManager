@@ -11,6 +11,7 @@ import com.lwj.skin.SkinManager;
 import com.lwj.skin.model.SkinAttrItem;
 import com.lwj.skin.model.SkinView;
 
+import java.lang.ref.WeakReference;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,6 +25,7 @@ import java.util.Map;
 public class SkinInflaterFactory implements LayoutInflater.Factory2 {
 
 
+
     private ArrayList<SkinView> views = new ArrayList<>();
 
     private Resources currentSkinRes;
@@ -35,8 +37,8 @@ public class SkinInflaterFactory implements LayoutInflater.Factory2 {
      * 一般 Android 系统的 View 都存储在这几个包下面
      */
     private static final String[] mClassPrefixList = {
-            "android.widget.",
             "android.view.",
+            "android.widget.",
             "android.webkit."
     };
 
@@ -57,7 +59,10 @@ public class SkinInflaterFactory implements LayoutInflater.Factory2 {
 
     @Override
     public View onCreateView(String name, Context context, AttributeSet attrs) {
-        View view = createViewFromSys(name, context, attrs);
+        View view = null;
+        if (!name.contains(".")) {
+            view = createViewFromSys(name, context, attrs);
+        }
         if (view == null) {
             view = createViewFromCustom(name, context, attrs);
         }
@@ -89,7 +94,7 @@ public class SkinInflaterFactory implements LayoutInflater.Factory2 {
                 constructor = aClass.getConstructor(mConstructorSignature);
                 sConstructorMap.put(name, constructor);
             } catch (Exception e) {
-                e.printStackTrace();
+//                e.printStackTrace();
             }
         }
 

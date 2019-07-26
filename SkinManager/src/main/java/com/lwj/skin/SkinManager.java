@@ -125,10 +125,7 @@ public class SkinManager {
         if (TextUtils.isEmpty(path)) {
 
             //如果是空，就加载默认资源,同时要清空皮肤包的配置
-            preferences.edit().putString(SP_SKIN_PATH_KEY, "").apply();
-            skinRes = appRes;
-            skinPackageName = originContext.getPackageName();
-
+            reset();
 
         } else {
             try {
@@ -153,6 +150,20 @@ public class SkinManager {
                 e.printStackTrace();
             }
 
+        }
+    }
+
+    public int getSkinResId(int resId) {
+        String entryName = appRes.getResourceEntryName(resId);
+        String typeName = appRes.getResourceTypeName(resId);
+        return getSkinResId(resId, entryName, typeName);
+    }
+
+    public int getSkinResId(int resId, String entryName, String typeName) {
+        if (skinRes == null) {
+            return resId;
+        } else {
+            return skinRes.getIdentifier(entryName, typeName, skinPackageName);
         }
     }
 

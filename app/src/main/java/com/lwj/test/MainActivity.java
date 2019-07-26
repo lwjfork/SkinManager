@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.lwj.skin.SkinManager;
 import com.lwj.skin.util.SkinInflaterFactory;
+import com.lwj.skin.util.SkinResUtil;
 
 import java.util.ArrayList;
 
@@ -62,6 +63,8 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 holder.tv.setText(strings.get(position));
+
+                holder.tv.setTextColor(SkinResUtil.getColor(R.color.black));
                 return convertView;
             }
         });
