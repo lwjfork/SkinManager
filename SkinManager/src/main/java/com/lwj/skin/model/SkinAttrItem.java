@@ -57,6 +57,9 @@ public class SkinAttrItem {
             return;
         }
         int skinResId = skinRes.getIdentifier(entryName, typeName, skinPackageName);
+        if (skinResId == 0) {
+            return;
+        }
         skinApply.apply(view, skinResId, resFetcher);
     }
 }
